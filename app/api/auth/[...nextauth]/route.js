@@ -20,7 +20,7 @@ const handler = NextAuth({
             session.user.id = sessionUser._id.toString();
             return session;
         },
-        async signIn({ profile }) {
+        async signIn({ account, profile, user, credentials }) {
             try {
                 await connectToDB();
 
@@ -36,8 +36,10 @@ const handler = NextAuth({
                         image: profile.picture
                     })
                 }
-            } catch {
-
+                return true
+            } catch (err) {
+                console.log("Error checking if user exists: ", error.message);
+                return false
             }
         }
     }
